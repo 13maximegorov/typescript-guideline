@@ -1,3 +1,9 @@
 {
-  "index": "Введение"
+  "index": "Введение",
+  "typescript-style-guide": "TypeScript Style Guide",
+  "angular-style-guide": "Angular Style Guide",
+  "oop": "Объектно-ориентированное программирование",
+  "solid": "SOLID",
+  "patterns": "Паттерны",
+  "algorithms": "Структуры данных и алгоритмы"
 }
