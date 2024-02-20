@@ -1,6 +1,7 @@
 {
   "index": "Введение",
   "typescript-style-guide": "TypeScript Style Guide",
+  "typescript-cheat-sheets": "Шпаргалки по TypeScript",
   "angular-style-guide": "Angular Style Guide",
   "oop": "Объектно-ориентированное программирование",
   "solid": "SOLID",
