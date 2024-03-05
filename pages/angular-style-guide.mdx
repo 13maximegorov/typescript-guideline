@@ -1,10 +1,987 @@
-import { Callout } from 'nextra/components';
+import { Callout, Tabs, FileTree } from 'nextra/components';
 
 # Angular Style Guide
 
-<Callout
-  type="warning"
-  emoji="⚠️"
->
-  Эта страница находится в разработке.
+Оригинальное руководство по стилю от Angular: [https://angular.dev/style-guide](https://angular.dev/style-guide).
+
+## Введение
+
+В этом руководстве по стилю представлены предпочтительные соглашения и, что немаловажно, объясняется, почему.
+
+## Словарь стиля
+
+Каждое руководство описывает либо хорошую, либо плохую практику, и все они имеют единообразную форму.
+
+Формулировка каждого руководства указывает на то, насколько сильна рекомендация.
+
+**Do** – это то, чему всегда нужно следовать. «Всегда», возможно, слишком сильное слово. Рекомендации, которым следует следовать буквально всегда, встречаются крайне редко. С другой стороны, вам нужен действительно необычный случай, чтобы нарушить принцип **Do**.
+
+Учтите, что руководящие принципы, как правило, следует соблюдать. Если вы полностью понимаете смысл рекомендаций и у вас есть веская причина отклониться, сделайте это. Стремитесь быть последовательными.
+
+Избегать указывает на то, что вам почти никогда не следует делать. Примеры кода, которые следует избегать, имеют безошибочно узнаваемый красный заголовок.
+
+<Callout emoji="❓">
+  Подобный блок `Почему?` обосновывает необходимость выполнения указанных перед
+  ним рекомендаций.
 </Callout>
+
+## Соглашения о структуре файлов
+
+В некоторых примерах кода отображается файл, который имеет один или несколько сопутствующих файлов с одинаковыми именами. Например, `hero.component.ts` и `hero.component.html`.
+
+В рекомендациях используется ярлык `hero.component.ts|html|css|spec` для представления этих различных файлов. Использование этого ярлыка делает файловую структуру данного руководства более удобной для чтения и более краткой.
+
+## Единая ответственность
+
+Примените принцип единой ответственности [(SRP)](https://en.wikipedia.org/wiki/Single_responsibility_principle) ко всем компонентам, службам и другим символам. Это помогает сделать приложение более чистым, простым для чтения и обслуживания, а также более пригодным для тестирования.
+
+## Правило одного
+
+#### Стиль 01-01
+
+Определите что-то одно, например службу или компонент, для каждого файла.
+
+Рассмотрите возможность ограничения файлов до 400 строк кода.
+
+<Callout emoji="❓">
+  Один компонент на файл значительно упрощает чтение, поддержку и позволяет
+  избежать конфликтов с командами системы контроля версий.
+  
+  Наличие одного компонента в файле позволяет избежать скрытых ошибок, которые
+  часто возникают при объединении компонентов в файле, когда они могут
+  использовать общие переменные, создавать нежелательные замыкания или
+  нежелательную связь с зависимостями.
+
+Один компонент может быть экспортируемым по умолчанию для своего файла, что
+облегчает отложенную загрузку с помощью маршрутизатора.
+
+</Callout>
+
+Главное — сделать код более пригодным для повторного использования, более читаемым и менее подверженным ошибкам.
+
+В следующем отрицательном примере определяется `AppComponent`, загружается приложение, определяется объект модели `Hero` и загружаются герои с сервера в одном файле. **Не делай этого**.
+
+{/* prettier-ignore */}
+```ts filename="app/heroes/hero.component.ts"
+// ❌ ПЛОХО
+
+import { Component, NgModule, OnInit } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+interface Hero {
+  id: number;
+  name: string;
+}
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>{{ title }}</h1>
+    <pre>{{ heroes | json }}</pre>
+  `,
+  styleUrls: ['../app.component.css'],
+})
+
+export class AppComponent implements OnInit {
+  title = 'Tour of Heroes';
+  heroes: Hero[] = [];
+  ngOnInit() {
+    getHeroes().then((heroes) => (this.heroes = heroes));
+  }
+}
+
+@NgModule({
+  imports: [BrowserModule],
+  declarations: [AppComponent],
+  exports: [AppComponent],
+  bootstrap: [AppComponent],
+})
+
+export class AppModule {}
+
+platformBrowserDynamic().bootstrapModule(AppModule);
+
+const HEROES: Hero[] = [
+  { id: 1, name: 'Bombasto' },
+  { id: 2, name: 'Tornado' },
+  { id: 3, name: 'Magneta' },
+];
+
+function getHeroes(): Promise<Hero[]> {
+  return Promise.resolve(HEROES); // TODO: get hero data from the server;
+}
+```
+
+Лучше всего перераспределить компонент и поддерживающие его классы в отдельные файлы.
+
+{/* prettier-ignore */}
+<Tabs items={['src/01-01/main.ts', 'src/01-01/app/app.module.ts', 'src/01-01/app/app.component.ts', 'src/01-01/app/heroes/heroes.component.ts', 'src/01-01/app/heroes/shared/hero.service.ts', 'src/01-01/app/heroes/shared/hero.model.ts', 'src/01-01/app/heroes/shared/mock-heroes.ts']}>
+  <Tabs.Tab>
+    ```ts 
+      import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+      import {AppModule} from './app/app.module';
+
+      platformBrowserDynamic().bootstrapModule(AppModule);
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {NgModule} from '@angular/core';
+      import {BrowserModule} from '@angular/platform-browser';
+      import {RouterModule} from '@angular/router';
+      import {AppComponent} from './app.component';
+      import {HeroesComponent} from './heroes/heroes.component';
+
+      @NgModule({
+        imports: [
+          BrowserModule,
+          RouterModule.forChild([{path: '01-01', component: AppComponent}]),
+        ],
+        declarations: [AppComponent, HeroesComponent],
+        exports: [AppComponent],
+        bootstrap: [AppComponent],
+      })
+      export class AppModule {}
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Component} from '@angular/core';
+      import {HeroService} from './heroes';
+
+      @Component({
+        selector: 'toh-app',
+        template: `
+            <toh-heroes></toh-heroes>
+          `,
+        styleUrls: ['./app.component.css'],
+        providers: [HeroService],
+      })
+      export class AppComponent {}
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Component, OnInit} from '@angular/core';
+      import {Hero, HeroService} from './shared';
+
+      @Component({
+        selector: 'toh-heroes',
+        template: `
+            <pre>{{heroes | json}}</pre>
+          `,
+      })
+      export class HeroesComponent implements OnInit {
+        heroes: Hero[] = [];
+        constructor(private heroService: HeroService) {}
+        ngOnInit() {
+          this.heroService.getHeroes().then((heroes) => (this.heroes = heroes));
+        }
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Injectable} from '@angular/core';
+      import {HEROES} from './mock-heroes';
+
+      @Injectable()
+      export class HeroService {
+        getHeroes() {
+          return Promise.resolve(HEROES);
+        }
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      export interface Hero {
+        id: number;
+        name: string;
+      }
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Hero} from './hero.model';
+
+      export const HEROES: Hero[] = [
+        {id: 1, name: 'Bombasto'},
+        {id: 2, name: 'Tornado'},
+        {id: 3, name: 'Magneta'},
+      ];
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+По мере роста приложения это правило становится еще более важным.
+
+## Наименование
+
+Соглашения об именах чрезвычайно важны для удобства сопровождения и читаемости. В этом руководстве рекомендуются соглашения об именовании имени файла и имени символа.
+
+### Общие правила именования
+
+#### Стиль 02-01
+
+**Следуйте** шаблону, который описывает функцию символа, а затем его тип. Рекомендуемый шаблон — `feature.type.ts`.
+
+<Callout emoji="❓">
+Соглашения об именах помогают обеспечить единообразный способ быстрого поиска контента. Последовательность в рамках проекта имеет жизненно важное значение. Важна стабильность в команде. Последовательность во всей компании обеспечивает огромную эффективность.
+
+Соглашения об именах должны помочь быстрее найти нужный код и облегчить его понимание.
+
+Названия папок и файлов должны четко передавать их предназначение. Например, `app/heroes/hero-list.component.ts` может содержать компонент, который управляет списком героев.
+
+</Callout>
+
+### Разделяйте имена файлов точками и тире.
+
+#### Стиль 02-02
+
+**Используйте** тире для разделения слов в описательном названии.
+
+**Используйте** точки, чтобы отделить описательное имя от типа.
+
+**Используйте** согласованные имена типов для всех компонентов, следуя шаблону, который описывает функцию компонента, а затем его тип. Рекомендуемый шаблон — `feature.type.ts`.
+
+**Используйте** обычные имена типов, включая `.service`, `.component`, `.pipe`, `.module` и `.directive`. При необходимости придумайте дополнительные имена типов, но старайтесь не создавать слишком много.
+
+<Callout emoji="❓">
+Имена типов обеспечивают единообразный способ быстро определить, что находится в файле.
+
+Имена типов позволяют легко найти определенный тип файла с помощью редактора или методов нечеткого поиска в IDE.
+
+Несокращенные имена типов, такие как `.service`, являются описательными и однозначными. Такие сокращения, как `.srv`, `.svc` и `.serv`, могут сбить с толку.
+
+Имена типов обеспечивают сопоставление с образцом для любых автоматизированных задач.
+
+</Callout>
+
+### Символы и имена файлов
+
+#### Стиль 02-03
+
+**Используйте** согласованные имена для всех активов, названных в честь того, что они представляют.
+
+**Используйте** верхний регистр для имен классов.
+
+**Сопоставьте** имя символа с именем файла.
+
+**Добавляйте** к имени символа обычный суффикс (например, `Component`, `Directive`, `Module`, `Pipe` или `Service`) для объекта этого типа.
+
+**Присвойте** имени файла обычный суффикс (например, `.component.ts`, `.directive.ts`, `.module.ts`, `.pipe.ts` или `.service.ts`) для файла этого типа.
+
+<Callout emoji="❓">
+Согласованные соглашения позволяют легко быстро идентифицировать и ссылаться на активы разных типов.
+
+</Callout>
+
+| Символьное наименование                                                              | Имя файла                |
+| ------------------------------------------------------------------------------------ | ------------------------ |
+| `@Component({ }) export class AppComponent { }`                                      | app.component.ts         |
+| `@Component({ }) export class HeroesComponent { }`                                   | heroes.component.ts      |
+| `@Component({ }) export class HeroListComponent { }`                                 | hero-list.component.ts   |
+| `@Component({ }) export class HeroDetailComponent { }`                               | hero-detail.component.ts |
+| `@Directive({ }) export class ValidationDirective { }`                               | validation.directive.ts  |
+| `@NgModule({ }) export class AppModule`                                              | app.module.ts            |
+| `@Pipe({ name: 'initCaps' }) export class InitCapsPipe implements PipeTransform { }` | init-caps.pipe.ts        |
+| `@Injectable() export class UserProfileService { } `                                 | user-profile.service.ts  |
+
+### Названия служб
+
+#### Стиль 02-04
+
+Используйте согласованные имена для всех служб, названных в честь их функций.
+
+Добавьте к имени класса обслуживания суффикс `Service`. Например, то, что получает данные или героев, следует называть `DataService` или `HeroService`.
+
+Некоторые термины однозначно являются услугами. Обычно они указывают на агентство, оканчиваясь на «-er». Вы можете предпочесть назвать службу, регистрирующую сообщения, `Logger`, а не `LoggerService`. Решите, приемлемо ли это исключение для вашего проекта. Как всегда, стремитесь к последовательности.
+
+<Callout emoji="❓">
+Обеспечивает единый способ быстрой идентификации и ссылки на службы.
+
+Четкие имена служб, такие как `Logger`, не требуют суффикса.
+
+Имена служб, такие как `Credit`, являются существительными и требуют суффикса, и их следует называть с суффиксом, когда неясно, является ли это службой или чем-то еще.
+
+</Callout>
+
+| Символьное наименование                          | Имя файла            |
+| ------------------------------------------------ | -------------------- |
+| `@Injectable() export class HeroDataService { }` | hero-data.service.ts |
+| `@Injectable() export class CreditService { }`   | credit.service.ts    |
+| `@Injectable() export class Logger { }`          | logger.service.ts    |
+
+### Начальная загрузка
+
+#### Стиль 02-05
+
+Поместите загрузочную информацию и логику платформы для приложения в файл с именем `main.ts`.
+
+Включите обработку ошибок в логику начальной загрузки.
+
+Избегайте помещения логики приложения в `main.ts`. Вместо этого рассмотрите возможность размещения его в компоненте или сервисе.
+
+<Callout emoji="❓">
+Соблюдает единое соглашение для логики запуска приложения.
+
+Следует знакомому соглашению других технологических платформ.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts filename="main.ts"
+  import {AppComponent} from './app/app.component';
+  import {bootstrapApplication} from '@angular/platform-browser';
+
+  bootstrapApplication(AppComponent);
+```
+
+#### Стиль 05-02
+
+Используйте dashed-case или kebab-case для именования селекторов элементов компонентов.
+
+{/* prettier-ignore */}
+```ts filename="hero-button.component.ts"
+  // ❌ ПЛОХО
+  
+  @Component({
+    standalone: true,
+    selector: 'tohHeroButton',
+    templateUrl: './hero-button.component.html',
+  })
+  export class HeroButtonComponent {}
+```
+
+{/* prettier-ignore */}
+<Tabs items={['hero-button.component.ts', 'hero-button.component.html']}>
+  <Tabs.Tab>
+    ```ts
+      @Component({
+        standalone: true,
+        selector: 'toh-hero-button',
+        templateUrl: './hero-button.component.html',
+      })
+      export class HeroButtonComponent {}
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```html
+      <toh-hero-button></toh-hero-button>
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Пользовательский префикс компонента
+
+#### Стиль 02-07
+
+**Используйте** значение селектора элемента, написанное через дефис и строчными буквами; например, `admin-users`.
+
+**Используйте** префикс, который идентифицирует область функций или само приложение.
+
+<Callout emoji="❓">
+Предотвращает конфликты имен элементов с компонентами в других приложениях и с собственными элементами HTML.
+
+Упрощает продвижение и распространение компонента в других приложениях.
+
+Компоненты легко идентифицировать в DOM.
+
+</Callout>
+
+```ts filename="hero.component.ts"
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'hero',
+  template: '',
+})
+export class HeroComponent {}
+```
+
+```ts filename="hero.component.ts"
+@Component({
+...
+  standalone: true,
+  selector: 'toh-hero',
+})
+export class HeroComponent {}
+```
+
+```ts filename="users.component.ts"
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'users',
+  template: '',
+})
+export class UsersComponent {}
+```
+
+```ts filename="users.component.ts"
+@Component({
+...
+  standalone: true,
+  selector: 'admin-users',
+})
+export class UsersComponent {}
+```
+
+### Селекторы директив
+
+#### Стиль 02-06
+
+**Используйте** нижний регистр для именования селекторов директив.
+
+<Callout emoji="❓">
+Сохраняет имена свойств, определенных в директивах, привязанных к представлению, в соответствии с именами атрибутов.
+
+Анализатор HTML Angular чувствителен к регистру и распознает нижний верблюжий регистр.
+
+</Callout>
+
+### Пользовательский префикс директивы
+
+#### Стиль 02-08
+
+**Пишите** селекторы, не являющиеся элементами, в нижнем регистре, если только селектор не предназначен для соответствия собственному атрибуту HTML.
+
+**Не добавляйте** к имени директивы префикс `ng`, поскольку этот префикс зарезервирован для Angular, и его использование может вызвать ошибки, которые трудно диагностировать.
+
+```ts filename="validate.directive.ts"
+// ❌ ПЛОХО
+
+@Directive({
+  standalone: true,
+  selector: '[validate]',
+})
+export class ValidateDirective {}
+```
+
+```ts filename="validate.directive.ts"
+@Directive({
+  standalone: true,
+  selector: '[tohValidate]',
+})
+export class ValidateDirective {}
+```
+
+### Названия пайпов
+
+#### 02-09
+
+Используйте согласованные имена для всех каналов, названные в честь их функции. Имя класса канала должно использовать `UpperCamelCase` (общее соглашение для имен классов), а соответствующая строка имени должна использовать LowerCamelCase. В строке `name` нельзя использовать дефисы («дефис» или «кебаб-регистр»).
+
+<Callout emoji="❓">
+Обеспечивает единый способ быстрой идентификации и ссылки на трубы.
+
+</Callout>
+
+| Символьное наименование                                                                                | Имя файла         |
+| ------------------------------------------------------------------------------------------------------ | ----------------- |
+| `@Pipe({ standalone: true, name: 'ellipsis' }) export class EllipsisPipe implements PipeTransform { }` | ellipsis.pipe.ts  |
+| `@Pipe({ standalone: true, name: 'initCaps' }) export class InitCapsPipe implements PipeTransform { }` | init-caps.pipe.ts |
+
+### Имена файлов модульных тестов
+
+#### Стиль 02-10
+
+**Называйте** файлы спецификаций тестов так же, как и тестируемый ими компонент.
+
+**Называйте** файлы спецификаций тестов с суффиксом `.spec`.
+
+<Callout emoji="❓">
+Обеспечивает последовательный способ быстрой идентификации тестов.
+
+Обеспечивает сопоставление шаблонов для karma или других средств запуска тестов.
+
+</Callout>
+
+| Тип теста  | Имя файла                                                                             |
+| ---------- | ------------------------------------------------------------------------------------- |
+| Components | heroes.component.spec.ts, hero-list.component.spec.ts , hero-detail.component.spec.ts |
+| Services   | logger.service.spec.ts, hero.service.spec.ts, filter-text.service.spec.ts             |
+| Pipes      | ellipsis.pipe.spec.ts, init-caps.pipe.spec.ts                                         |
+
+## Структура приложения и NgModules
+
+Имейте краткосрочное представление о реализации и долгосрочное видение. Начните с малого, но помните, куда движется приложение.
+
+Весь код приложения находится в папке с именем `src`. Все функциональные области находятся в отдельной папке.
+
+Весь контент представляет собой один актив на файл. Каждый компонент, служба и канал находятся в отдельном файле. Все сценарии сторонних поставщиков хранятся в другой папке, а не в папке `src`. Используйте соглашения об именах файлов, указанные в этом руководстве.
+
+### Общие структурные рекомендации
+
+#### Стиль 04-06
+
+Начинайте с малого, но имейте в виду, в каком направлении движется приложение.
+
+Имейте краткосрочное представление о реализации и долгосрочное видение.
+
+Поместите весь код приложения в папку с именем `src`.
+
+Рассмотрите возможность создания папки для компонента, если он имеет несколько сопутствующих файлов (`.ts`, `.html`, `.css` и `.spec`).
+
+<Callout emoji="❓">
+Помогает сохранить структуру приложения небольшой и простой в обслуживании на ранних стадиях, а также легко развивать ее по мере роста приложения.
+
+Компоненты часто имеют четыре файла (например, _.html, _.css, _.ts и _.spec.ts) и могут быстро засорять папку.
+
+</Callout>
+
+Вот совместимая структура папок и файлов:
+
+project root
+
+<FileTree>
+  <FileTree.Folder
+    name="src"
+    defaultOpen
+  >
+    <FileTree.Folder name="app">
+      <FileTree.Folder name="core">
+        <FileTree.File name="exception.service.ts|spec.ts" />
+        <FileTree.File name="user-profile.service.ts|spec.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="heroes">
+        <FileTree.Folder name="hero">
+          <FileTree.File name="hero.component.ts|html|css|spec.ts" />
+        </FileTree.Folder>
+        <FileTree.Folder name="hero-list">
+          <FileTree.File name="hero-list.component.ts|html|css|spec.ts" />
+        </FileTree.Folder>
+        <FileTree.Folder name="shared">
+          <FileTree.File name="hero-button.component.ts|html|css|spec.ts" />
+          <FileTree.File name="hero.model.ts" />
+          <FileTree.File name="hero.service.ts|spec.ts" />
+        </FileTree.Folder>
+        <FileTree.File name="heroes.component.ts|html|css|spec.ts" />
+        <FileTree.File name="heroes.routes.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="shared">
+        <FileTree.File name="init-caps.pipe.ts|spec.ts" />
+        <FileTree.File name="filter-text.component.ts|spec.ts" />
+        <FileTree.File name="filter-text.service.ts|spec.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="villains">
+        <FileTree.Folder name="villain">
+          <FileTree.File name="..." />
+        </FileTree.Folder>
+        <FileTree.Folder name="villain-list">
+          <FileTree.File name="..." />
+        </FileTree.Folder>
+        <FileTree.Folder name="shared">
+          <FileTree.File name="..." />
+        </FileTree.Folder>
+        <FileTree.File name="villains.component.ts|html|css|spec.ts" />
+        <FileTree.File name="villains.module.ts" />
+        <FileTree.File name="villains-routing.module.ts" />
+      </FileTree.Folder>
+      <FileTree.File name="app.component.ts|html|css|spec.ts" />
+      <FileTree.File name="app.routes.ts" />
+    </FileTree.Folder>
+    <FileTree.File name="main.ts" />
+    <FileTree.File name="index.html" />
+
+  </FileTree.Folder>
+  <FileTree.Folder
+    name="node_modules"
+    defaultOpen
+  ></FileTree.Folder>
+  <FileTree.Folder
+    name="..."
+    defaultOpen
+  ></FileTree.Folder>
+</FileTree>
+
+<Callout
+  type="info"
+  emoji="ℹ️"
+>
+  ПОЛЕЗНО: хотя компоненты в выделенных папках широко предпочтительнее, другой
+  вариант для небольших приложений — хранить компоненты в плоском виде (не в
+  выделенной папке). При этом в существующую папку добавляется до четырех
+  файлов, но при этом уменьшается вложенность папок. Что бы вы ни выбрали,
+  будьте последовательны.
+</Callout>
+
+### Структура папок по функциям
+
+#### Style 04-07
+
+Создавайте папки, названные в соответствии с функциональной областью, которую они представляют.
+
+<Callout emoji="❓">
+Разработчик может найти код и с первого взгляда определить, что представляет собой каждый файл. Структура максимально плоская, в ней нет повторяющихся или избыточных названий.
+
+Помогает уменьшить загромождение приложения за счет организации контента.
+
+Когда файлов много, например более 10, найти их проще при наличии единообразной структуры папок и сложнее при плоской структуре.
+
+</Callout>
+
+### Корневой модуль приложения (App root module)
+
+<Callout
+  type="error"
+  emoji="️❗"
+>
+  ВАЖНО: Следующие рекомендации руководства по стилю предназначены для
+  приложений, основанных на NgModule. Вместо этого новые приложения должны
+  использовать автономные компоненты, директивы и каналы.
+</Callout>
+
+#### Стиль 04-08
+
+Создайте NgModule в корневой папке приложения, например, в `/src/app`, если вы создаете приложение на основе `NgModule`.
+
+<Callout emoji="❓">
+Для каждого приложения на основе `NgModule` требуется как минимум один корневой `NgModule`.
+
+Рассмотрите возможность назвать корневой модуль `app.module.ts` - это Облегчает поиск и идентификацию корневого модуля.
+
+</Callout>
+
+```ts filename="app/app.module.ts"
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+...
+import {AppComponent} from './app.component';
+import {HeroesComponent} from './heroes/heroes.component';
+@NgModule({
+  imports: [
+    BrowserModule,
+...
+  ],
+  declarations: [AppComponent, HeroesComponent],
+  exports: [AppComponent],
+})
+export class AppModule {}
+```
+
+### Функциональные модули
+
+#### Стиль 04-09
+
+Создайте `NgModule` для всех отдельных функций приложения; например, функция `Heroes`.
+
+Поместите функциональный модуль в папку с тем же именем, что и функциональная область; например, в `app/heroes`.
+
+Назовите файл функционального модуля, отражая имя функциональной области и папки; например, `app/heroes/heroes.module.ts`.
+
+Назовите символ функционального модуля, отражающий имя функциональной области, папки и файла; например, `app/heroes/heroes.module.ts` определяет `HeroesModul`e`.
+
+<Callout emoji="❓">
+Функциональный модуль может раскрывать или скрывать свою реализацию от других модулей.
+
+Функциональный модуль идентифицирует отдельные наборы связанных компонентов, которые составляют функциональную область.
+
+Функциональный модуль можно легко перенаправить как с нетерпением, так и лениво.
+
+Функциональный модуль определяет четкие границы между конкретными функциями и другими функциями приложения.
+
+Функциональный модуль помогает прояснить и упростить распределение обязанностей по разработке между различными командами.
+
+Функциональный модуль можно легко изолировать для тестирования.
+
+</Callout>
+
+### Модуль общих функций
+
+#### Стиль 04-10
+
+Создайте функциональный модуль с именем `SharedModule` в общей папке; например, `app/shared/shared.module.ts` определяет `SharedModule`.
+
+Обязательно объявляйте компоненты, директивы и каналы в общем модуле, если эти элементы будут повторно использоваться и на них будут ссылаться компоненты, объявленные в других функциональных модулях.
+
+Рассмотрите возможность использования имени SharedModule, когда на содержимое общего модуля ссылаются во всем приложении.
+
+Рассмотрите возможность не предоставлять услуги в общих модулях. Службы обычно представляют собой отдельные элементы, которые предоставляются один раз для всего приложения или в определенном функциональном модуле. Однако есть исключения. Например, в следующем примере кода обратите внимание, что `SharedModule` предоставляет `FilterTextService`. Здесь это приемлемо, поскольку служба не имеет состояния, т. е. новые экземпляры не влияют на потребителей службы.
+
+Импортируйте все модули, необходимые для ресурсов в `SharedModule`; например, `CommonModule` и `FormsModule`.
+
+<Callout emoji="❓">
+`SharedModule` будет содержать компоненты, директивы и каналы, которым могут потребоваться функции другого общего модуля; например, `ngFor` в `CommonModule`.
+
+Объявите все компоненты, директивы и каналы в `SharedModule`.
+
+Экспортируйте из `SharedModule` все символы, которые должны использовать другие функциональные модули.
+
+`SharedModule` существует для того, чтобы сделать часто используемые компоненты, директивы и каналы доступными для использования в шаблонах компонентов во многих других модулях.
+
+Избегайте указания одноэлементных поставщиков всего приложения в `SharedModule`. Преднамеренные синглтоны — это нормально.
+
+Отложенно загружаемый функциональный модуль, который импортирует этот общий модуль, создаст собственную копию службы и, вероятно, приведет к нежелательным результатам.
+
+Вы не хотите, чтобы каждый модуль имел свой отдельный экземпляр одноэлементных сервисов. Однако существует реальная опасность того, что это произойдет, если `SharedModule` предоставит услугу.
+
+</Callout>
+
+project root
+
+<FileTree>
+  <FileTree.Folder
+    name="src"
+    defaultOpen
+  >
+    <FileTree.Folder name="app">
+      <FileTree.Folder name="shared">
+        <FileTree.File name="shared.module.ts" />
+        <FileTree.File name="init-caps.pipe.ts|spec.ts" />
+        <FileTree.File name="filter-text.component.ts|spec.ts" />
+        <FileTree.File name="filter-text.service.ts|spec.ts" />
+      </FileTree.Folder>
+      <FileTree.File name="app.component.ts|html|css|spec.ts" />
+      <FileTree.File name="app.module.ts" />
+      <FileTree.File name="app.routes.ts" />
+    </FileTree.Folder>
+    <FileTree.File name="main.ts" />
+    <FileTree.File name="index.html" />
+
+  </FileTree.Folder>
+</FileTree>
+
+{/* prettier-ignore */}
+<Tabs items={['app/shared/shared.module.ts', 'app/shared/init-caps.pipe.ts', 'app/shared/filter-text/filter-text.component.ts', 'app/shared/filter-text/filter-text.service.ts', 'app/heroes/heroes.component.ts', 'app/heroes/heroes.component.html']}>
+  <Tabs.Tab>
+    ```ts 
+      import {NgModule} from '@angular/core';
+      import {CommonModule} from '@angular/common';
+      import {FormsModule} from '@angular/forms';
+
+      import {FilterTextComponent} from './filter-text/filter-text.component';
+      import {FilterTextService} from './filter-text/filter-text.service';
+      import {InitCapsPipe} from './init-caps.pipe';
+
+      @NgModule({
+        imports: [CommonModule, FormsModule],
+        declarations: [FilterTextComponent, InitCapsPipe],
+        providers: [FilterTextService],
+        exports: [CommonModule, FormsModule, FilterTextComponent, InitCapsPipe],
+      })
+      export class SharedModule {}
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Pipe, PipeTransform} from '@angular/core';
+      
+      @Pipe({name: 'initCaps'})
+      export class InitCapsPipe implements PipeTransform {
+        transform = (value: string) => value;
+      }
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Component, EventEmitter, Output} from '@angular/core';
+
+      @Component({
+        selector: 'toh-filter-text',
+        template:
+          '<input type="text" id="filterText" [(ngModel)]="filter" (keyup)="filterChanged($event)" />',
+      })
+
+      export class FilterTextComponent {
+        @Output() changed: EventEmitter<string>;
+        filter = '';
+
+        constructor() {
+          this.changed = new EventEmitter<string>();
+        }
+
+        clear() {
+          this.filter = '';
+        }
+
+        filterChanged(event: any) {
+          event.preventDefault();
+          console.log(`Filter Changed: ${this.filter}`);
+          this.changed.emit(this.filter);
+        }
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Injectable} from '@angular/core';
+
+      @Injectable()
+      export class FilterTextService {
+        constructor() {
+          console.log('Created an instance of FilterTextService');
+        }
+
+        filter(data: string, props: Array<string>, originalList: Array<any>) {
+          let filteredList: any[];
+          if (data && props && originalList) {
+            data = data.toLowerCase();
+            const filtered = originalList.filter((item) => {
+              let match = false;
+              for (const prop of props) {
+                if (item[prop].toString().toLowerCase().indexOf(data) > -1) {
+                  match = true;
+                  break;
+                }
+              }
+              return match;
+            });
+            filteredList = filtered;
+          } else {
+            filteredList = originalList;
+          }
+          return filteredList;
+        }
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      import {Component} from '@angular/core';
+      import {FilterTextService} from '../shared/filter-text/filter-text.service';
+
+      @Component({
+        selector: 'toh-heroes',
+        templateUrl: './heroes.component.html',
+      })
+
+      export class HeroesComponent {
+        heroes = [
+          {id: 1, name: 'Windstorm'},
+          {id: 2, name: 'Bombasto'},
+          {id: 3, name: 'Magneta'},
+          {id: 4, name: 'Tornado'},
+        ];
+
+        filteredHeroes = this.heroes;
+
+        constructor(private filterService: FilterTextService) {}
+
+        filterChanged(searchText: string) {
+          this.filteredHeroes = this.filterService.filter(searchText, ['id', 'name'], this.heroes);
+        }
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```html
+      <div>This is heroes component</div>
+      <ul>
+        <li *ngFor="let hero of filteredHeroes">
+          {{ hero.name }}
+        </li>
+      </ul>
+      <toh-filter-text (changed)="filterChanged($event)"></toh-filter-text>
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Папки с отложенной загрузкой
+
+#### Стиль 04-11
+
+Отдельная функция приложения или рабочий процесс могут загружаться отложенно или по требованию, а не при запуске приложения.
+
+Поместите содержимое отложенно загруженных функций в папку отложенной загрузки. Типичная папка с отложенной загрузкой содержит компонент маршрутизации, его дочерние компоненты и связанные с ними ресурсы.
+
+Папка позволяет легко идентифицировать и изолировать содержимое объекта.
+
+## Components
+
+### Стиль 05-03
+
+Рассмотрите возможность предоставления компонентам селектора элементов, а не селекторов атрибутов или классов.
+
+<Callout emoji="❓">
+Компоненты имеют шаблоны, содержащие HTML и дополнительный синтаксис шаблонов Angular. Они отображают контент. Разработчики размещают компоненты на странице так же, как они размещают собственные элементы HTML и веб-компоненты.
+
+Легче понять, что символ является компонентом, посмотрев HTML-код шаблона.
+
+</Callout>
+
+<Callout
+  type="info"
+  emoji="ℹ️"
+>
+  ПОЛЕЗНО: Есть несколько случаев, когда вы присваиваете компоненту атрибут, например, когда вы хотите расширить встроенный элемент. Например, Material Design использует эту технику с `<button mat-button>`. Однако вы не будете использовать этот метод для пользовательского элемента.
+</Callout>
+
+```ts
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: '[tohHeroButton]',
+  templateUrl: './hero-button.component.html',
+})
+export class HeroButtonComponent {}
+```
+
+```html
+<!-- ❌ ПЛОХО -->
+<div tohHeroButton></div>
+```
+
+{/* prettier-ignore */}
+<Tabs items={['hero-button.component.ts', 'hero-button.component.html']}>
+  <Tabs.Tab>
+    ```ts 
+      import {Component} from '@angular/core';
+
+      @Component({
+        standalone: true,
+        selector: 'toh-hero-button',
+        templateUrl: './hero-button.component.html',
+      })
+      export class HeroButtonComponent {}
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```html
+      <toh-hero-button></toh-hero-button>
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Извлечение шаблонов и стилей в отдельные файлы.
+
+###№ Стиль 05-04
+
+Если в файле больше 3-х строк, извлекайте шаблоны и стили в отдельный файл.
+
+Назовите файл шаблона `[component-name].component.html`, где `[component-name]` — это имя компонента.
+
+Назовите файл стиля `[component-name].component.css`, где `[component-name]` — это имя компонента.
+
+Обязательно указывайте URL-адреса, относящиеся к компонентам, с префиксом `./`.
+
+<Callout emoji="❓">
+Большие встроенные шаблоны и стили скрывают назначение и реализацию компонента, ухудшая читабельность и удобство обслуживания.
+
+В большинстве редакторов подсказки по синтаксису и фрагменты кода недоступны при разработке встроенных шаблонов и стилей. Языковая служба Angular TypeScript (готовится к выпуску) обещает устранить этот недостаток для шаблонов HTML в тех редакторах, которые ее поддерживают; со стилями CSS это не поможет.
+
+Относительный URL-адрес компонента не требует изменений при перемещении файлов компонента, пока файлы остаются вместе.
+
+Префикс `./` является стандартным синтаксисом для относительных URL-адресов; не полагайтесь на текущую способность Angular обходиться без этого префикса.
+
+</Callout>
+
+```ts filename="heroes.component.ts"
+
+```
