@@ -8,5 +8,5 @@ module.exports = {
   images: {
     unoptimized: true,
   },
-  basePath: '/typescript-guideline',
+  //basePath: '/typescript-guideline',
 };

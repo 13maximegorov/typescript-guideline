@@ -20,12 +20,13 @@ import { Callout, Tabs, FileTree } from 'nextra/components';
 
 Избегать указывает на то, что вам почти никогда не следует делать. Примеры кода, которые следует избегать, имеют безошибочно узнаваемый красный заголовок.
 
-<Callout emoji="❓">
-  Подобный блок `Почему?` обосновывает необходимость выполнения указанных перед
-  ним рекомендаций.
+<Callout type="info" emoji="ℹ️">
+Подобный блок обосновывает необходимость выполнения указанных перед
+ним рекомендаций.
+
 </Callout>
 
-## Соглашения о структуре файлов
+## Соглашение о структуре файлов
 
 В некоторых примерах кода отображается файл, который имеет один или несколько сопутствующих файлов с одинаковыми именами. Например, `hero.component.ts` и `hero.component.html`.
 
@@ -43,14 +44,14 @@ import { Callout, Tabs, FileTree } from 'nextra/components';
 
 Рассмотрите возможность ограничения файлов до 400 строк кода.
 
-<Callout emoji="❓">
-  Один компонент на файл значительно упрощает чтение, поддержку и позволяет
-  избежать конфликтов с командами системы контроля версий.
-  
-  Наличие одного компонента в файле позволяет избежать скрытых ошибок, которые
-  часто возникают при объединении компонентов в файле, когда они могут
-  использовать общие переменные, создавать нежелательные замыкания или
-  нежелательную связь с зависимостями.
+<Callout type="info" emoji="ℹ️">
+Один компонент на файл значительно упрощает чтение, поддержку и позволяет
+избежать конфликтов с командами системы контроля версий.
+
+Наличие одного компонента в файле позволяет избежать скрытых ошибок, которые
+часто возникают при объединении компонентов в файле, когда они могут
+использовать общие переменные, создавать нежелательные замыкания или
+нежелательную связь с зависимостями.
 
 Один компонент может быть экспортируемым по умолчанию для своего файла, что
 облегчает отложенную загрузку с помощью маршрутизатора.
@@ -119,6 +120,8 @@ function getHeroes(): Promise<Hero[]> {
 <Tabs items={['src/01-01/main.ts', 'src/01-01/app/app.module.ts', 'src/01-01/app/app.component.ts', 'src/01-01/app/heroes/heroes.component.ts', 'src/01-01/app/heroes/shared/hero.service.ts', 'src/01-01/app/heroes/shared/hero.model.ts', 'src/01-01/app/heroes/shared/mock-heroes.ts']}>
   <Tabs.Tab>
     ```ts 
+      // ✅ ХОРОШО
+
       import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
       import {AppModule} from './app/app.module';
 
@@ -128,6 +131,8 @@ function getHeroes(): Promise<Hero[]> {
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
+      // ✅ ХОРОШО
+
       import {NgModule} from '@angular/core';
       import {BrowserModule} from '@angular/platform-browser';
       import {RouterModule} from '@angular/router';
@@ -149,6 +154,8 @@ function getHeroes(): Promise<Hero[]> {
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
+      // ✅ ХОРОШО
+
       import {Component} from '@angular/core';
       import {HeroService} from './heroes';
 
@@ -166,6 +173,8 @@ function getHeroes(): Promise<Hero[]> {
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
+      // ✅ ХОРОШО
+
       import {Component, OnInit} from '@angular/core';
       import {Hero, HeroService} from './shared';
 
@@ -187,6 +196,8 @@ function getHeroes(): Promise<Hero[]> {
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
+      // ✅ ХОРОШО
+
       import {Injectable} from '@angular/core';
       import {HEROES} from './mock-heroes';
 
@@ -201,14 +212,19 @@ function getHeroes(): Promise<Hero[]> {
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
+      // ✅ ХОРОШО
+
       export interface Hero {
         id: number;
         name: string;
       }
     ```
+
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
+      // ✅ ХОРОШО
+
       import {Hero} from './hero.model';
 
       export const HEROES: Hero[] = [
@@ -233,7 +249,7 @@ function getHeroes(): Promise<Hero[]> {
 
 **Следуйте** шаблону, который описывает функцию символа, а затем его тип. Рекомендуемый шаблон — `feature.type.ts`.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Соглашения об именах помогают обеспечить единообразный способ быстрого поиска контента. Последовательность в рамках проекта имеет жизненно важное значение. Важна стабильность в команде. Последовательность во всей компании обеспечивает огромную эффективность.
 
 Соглашения об именах должны помочь быстрее найти нужный код и облегчить его понимание.
@@ -254,7 +270,7 @@ function getHeroes(): Promise<Hero[]> {
 
 **Используйте** обычные имена типов, включая `.service`, `.component`, `.pipe`, `.module` и `.directive`. При необходимости придумайте дополнительные имена типов, но старайтесь не создавать слишком много.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Имена типов обеспечивают единообразный способ быстро определить, что находится в файле.
 
 Имена типов позволяют легко найти определенный тип файла с помощью редактора или методов нечеткого поиска в IDE.
@@ -279,7 +295,7 @@ function getHeroes(): Promise<Hero[]> {
 
 **Присвойте** имени файла обычный суффикс (например, `.component.ts`, `.directive.ts`, `.module.ts`, `.pipe.ts` или `.service.ts`) для файла этого типа.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Согласованные соглашения позволяют легко быстро идентифицировать и ссылаться на активы разных типов.
 
 </Callout>
@@ -305,7 +321,7 @@ function getHeroes(): Promise<Hero[]> {
 
 Некоторые термины однозначно являются услугами. Обычно они указывают на агентство, оканчиваясь на «-er». Вы можете предпочесть назвать службу, регистрирующую сообщения, `Logger`, а не `LoggerService`. Решите, приемлемо ли это исключение для вашего проекта. Как всегда, стремитесь к последовательности.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Обеспечивает единый способ быстрой идентификации и ссылки на службы.
 
 Четкие имена служб, такие как `Logger`, не требуют суффикса.
@@ -330,7 +346,7 @@ function getHeroes(): Promise<Hero[]> {
 
 Избегайте помещения логики приложения в `main.ts`. Вместо этого рассмотрите возможность размещения его в компоненте или сервисе.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Соблюдает единое соглашение для логики запуска приложения.
 
 Следует знакомому соглашению других технологических платформ.
@@ -339,6 +355,8 @@ function getHeroes(): Promise<Hero[]> {
 
 {/* prettier-ignore */}
 ```ts filename="main.ts"
+  // ✅ ХОРОШО
+
   import {AppComponent} from './app/app.component';
   import {bootstrapApplication} from '@angular/platform-browser';
 
@@ -365,6 +383,8 @@ function getHeroes(): Promise<Hero[]> {
 <Tabs items={['hero-button.component.ts', 'hero-button.component.html']}>
   <Tabs.Tab>
     ```ts
+      // ✅ ХОРОШО
+
       @Component({
         standalone: true,
         selector: 'toh-hero-button',
@@ -372,11 +392,15 @@ function getHeroes(): Promise<Hero[]> {
       })
       export class HeroButtonComponent {}
     ```
+
   </Tabs.Tab>
   <Tabs.Tab>
     ```html
+      // ✅ ХОРОШО
+
       <toh-hero-button></toh-hero-button>
     ```
+
   </Tabs.Tab>
 </Tabs>
 
@@ -388,7 +412,7 @@ function getHeroes(): Promise<Hero[]> {
 
 **Используйте** префикс, который идентифицирует область функций или само приложение.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Предотвращает конфликты имен элементов с компонентами в других приложениях и с собственными элементами HTML.
 
 Упрощает продвижение и распространение компонента в других приложениях.
@@ -397,6 +421,7 @@ function getHeroes(): Promise<Hero[]> {
 
 </Callout>
 
+{/* prettier-ignore */}
 ```ts filename="hero.component.ts"
 // ❌ ПЛОХО
 
@@ -408,7 +433,10 @@ function getHeroes(): Promise<Hero[]> {
 export class HeroComponent {}
 ```
 
+{/* prettier-ignore */}
 ```ts filename="hero.component.ts"
+// ✅ ХОРОШО
+
 @Component({
 ...
   standalone: true,
@@ -417,7 +445,9 @@ export class HeroComponent {}
 export class HeroComponent {}
 ```
 
+{/* prettier-ignore */}
 ```ts filename="users.component.ts"
+
 // ❌ ПЛОХО
 
 @Component({
@@ -428,7 +458,10 @@ export class HeroComponent {}
 export class UsersComponent {}
 ```
 
+{/* prettier-ignore */}
 ```ts filename="users.component.ts"
+// ✅ ХОРОШО
+
 @Component({
 ...
   standalone: true,
@@ -443,7 +476,7 @@ export class UsersComponent {}
 
 **Используйте** нижний регистр для именования селекторов директив.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Сохраняет имена свойств, определенных в директивах, привязанных к представлению, в соответствии с именами атрибутов.
 
 Анализатор HTML Angular чувствителен к регистру и распознает нижний верблюжий регистр.
@@ -458,6 +491,7 @@ export class UsersComponent {}
 
 **Не добавляйте** к имени директивы префикс `ng`, поскольку этот префикс зарезервирован для Angular, и его использование может вызвать ошибки, которые трудно диагностировать.
 
+{/* prettier-ignore */}
 ```ts filename="validate.directive.ts"
 // ❌ ПЛОХО
 
@@ -468,7 +502,10 @@ export class UsersComponent {}
 export class ValidateDirective {}
 ```
 
+{/* prettier-ignore */}
 ```ts filename="validate.directive.ts"
+// ✅ ХОРОШО
+
 @Directive({
   standalone: true,
   selector: '[tohValidate]',
@@ -482,7 +519,7 @@ export class ValidateDirective {}
 
 Используйте согласованные имена для всех каналов, названные в честь их функции. Имя класса канала должно использовать `UpperCamelCase` (общее соглашение для имен классов), а соответствующая строка имени должна использовать LowerCamelCase. В строке `name` нельзя использовать дефисы («дефис» или «кебаб-регистр»).
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Обеспечивает единый способ быстрой идентификации и ссылки на трубы.
 
 </Callout>
@@ -500,7 +537,7 @@ export class ValidateDirective {}
 
 **Называйте** файлы спецификаций тестов с суффиксом `.spec`.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Обеспечивает последовательный способ быстрой идентификации тестов.
 
 Обеспечивает сопоставление шаблонов для karma или других средств запуска тестов.
@@ -533,7 +570,7 @@ export class ValidateDirective {}
 
 Рассмотрите возможность создания папки для компонента, если он имеет несколько сопутствующих файлов (`.ts`, `.html`, `.css` и `.spec`).
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Помогает сохранить структуру приложения небольшой и простой в обслуживании на ранних стадиях, а также легко развивать ее по мере роста приложения.
 
 Компоненты часто имеют четыре файла (например, _.html, _.css, _.ts и _.spec.ts) и могут быстро засорять папку.
@@ -622,7 +659,7 @@ project root
 
 Создавайте папки, названные в соответствии с функциональной областью, которую они представляют.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Разработчик может найти код и с первого взгляда определить, что представляет собой каждый файл. Структура максимально плоская, в ней нет повторяющихся или избыточных названий.
 
 Помогает уменьшить загромождение приложения за счет организации контента.
@@ -646,19 +683,21 @@ project root
 
 Создайте NgModule в корневой папке приложения, например, в `/src/app`, если вы создаете приложение на основе `NgModule`.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Для каждого приложения на основе `NgModule` требуется как минимум один корневой `NgModule`.
 
 Рассмотрите возможность назвать корневой модуль `app.module.ts` - это Облегчает поиск и идентификацию корневого модуля.
 
 </Callout>
 
+{/* prettier-ignore */}
 ```ts filename="app/app.module.ts"
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 ...
 import {AppComponent} from './app.component';
 import {HeroesComponent} from './heroes/heroes.component';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -682,7 +721,7 @@ export class AppModule {}
 
 Назовите символ функционального модуля, отражающий имя функциональной области, папки и файла; например, `app/heroes/heroes.module.ts` определяет `HeroesModul`e`.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Функциональный модуль может раскрывать или скрывать свою реализацию от других модулей.
 
 Функциональный модуль идентифицирует отдельные наборы связанных компонентов, которые составляют функциональную область.
@@ -711,7 +750,7 @@ export class AppModule {}
 
 Импортируйте все модули, необходимые для ресурсов в `SharedModule`; например, `CommonModule` и `FormsModule`.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 `SharedModule` будет содержать компоненты, директивы и каналы, которым могут потребоваться функции другого общего модуля; например, `ngFor` в `CommonModule`.
 
 Объявите все компоненты, директивы и каналы в `SharedModule`.
@@ -901,13 +940,13 @@ project root
 
 Папка позволяет легко идентифицировать и изолировать содержимое объекта.
 
-## Components
+## Компоненты
 
-### Стиль 05-03
+#### Стиль 05-03
 
 Рассмотрите возможность предоставления компонентам селектора элементов, а не селекторов атрибутов или классов.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Компоненты имеют шаблоны, содержащие HTML и дополнительный синтаксис шаблонов Angular. Они отображают контент. Разработчики размещают компоненты на странице так же, как они размещают собственные элементы HTML и веб-компоненты.
 
 Легче понять, что символ является компонентом, посмотрев HTML-код шаблона.
@@ -921,6 +960,7 @@ project root
   ПОЛЕЗНО: Есть несколько случаев, когда вы присваиваете компоненту атрибут, например, когда вы хотите расширить встроенный элемент. Например, Material Design использует эту технику с `<button mat-button>`. Однако вы не будете использовать этот метод для пользовательского элемента.
 </Callout>
 
+{/* prettier-ignore */}
 ```ts
 // ❌ ПЛОХО
 
@@ -932,6 +972,7 @@ project root
 export class HeroButtonComponent {}
 ```
 
+{/* prettier-ignore */}
 ```html
 <!-- ❌ ПЛОХО -->
 <div tohHeroButton></div>
@@ -941,6 +982,8 @@ export class HeroButtonComponent {}
 <Tabs items={['hero-button.component.ts', 'hero-button.component.html']}>
   <Tabs.Tab>
     ```ts 
+      // ✅ ХОРОШО
+
       import {Component} from '@angular/core';
 
       @Component({
@@ -954,14 +997,17 @@ export class HeroButtonComponent {}
   </Tabs.Tab>
   <Tabs.Tab>
     ```html
+      <!-- ✅ ХОРОШО -->
+
       <toh-hero-button></toh-hero-button>
     ```
+
   </Tabs.Tab>
 </Tabs>
 
 ### Извлечение шаблонов и стилей в отдельные файлы.
 
-###№ Стиль 05-04
+#### Стиль 05-04
 
 Если в файле больше 3-х строк, извлекайте шаблоны и стили в отдельный файл.
 
@@ -971,7 +1017,7 @@ export class HeroButtonComponent {}
 
 Обязательно указывайте URL-адреса, относящиеся к компонентам, с префиксом `./`.
 
-<Callout emoji="❓">
+<Callout type="info" emoji="ℹ️">
 Большие встроенные шаблоны и стили скрывают назначение и реализацию компонента, ухудшая читабельность и удобство обслуживания.
 
 В большинстве редакторов подсказки по синтаксису и фрагменты кода недоступны при разработке встроенных шаблонов и стилей. Языковая служба Angular TypeScript (готовится к выпуску) обещает устранить этот недостаток для шаблонов HTML в тех редакторах, которые ее поддерживают; со стилями CSS это не поможет.
@@ -982,6 +1028,888 @@ export class HeroButtonComponent {}
 
 </Callout>
 
+{/* prettier-ignore */}
 ```ts filename="heroes.component.ts"
+// ❌ ПЛОХО
 
+@Component({
+  standalone: true,
+  selector: 'toh-heroes',
+  template: `
+    <div>
+      <h2>My Heroes</h2>
+      <ul class="heroes">
+        @for (hero of heroes | async; track hero) {
+        <li (click)="selectedHero = hero">
+          <span class="badge">{{ hero.id }}</span> {{ hero.name }}
+        </li>
+        }
+      </ul>
+      @if (selectedHero) {
+      <div>
+        <h2>{{ selectedHero.name | uppercase }} is my hero</h2>
+      </div>
+      }
+    </div>
+  `,
+  styles: [
+    `
+      .heroes {
+        margin: 0 0 2em 0;
+        list-style-type: none;
+        padding: 0;
+        width: 15em;
+      }
+      .heroes li {
+        cursor: pointer;
+        position: relative;
+        left: 0;
+        background-color: #eee;
+        margin: 0.5em;
+        padding: 0.3em 0;
+        height: 1.6em;
+        border-radius: 4px;
+      }
+      .heroes .badge {
+        display: inline-block;
+        font-size: small;
+        color: white;
+        padding: 0.8em 0.7em 0 0.7em;
+        background-color: #607d8b;
+        line-height: 1em;
+        position: relative;
+        left: -1px;
+        top: -4px;
+        height: 1.8em;
+        margin-right: 0.8em;
+        border-radius: 4px 0 0 4px;
+      }
+    `,
+  ],
+  imports: [NgFor, NgIf, AsyncPipe, UpperCasePipe],
+})
+export class HeroesComponent {
+  heroes: Observable<Hero[]>;
+
+  selectedHero!: Hero;
+
+  constructor(private heroService: HeroService) {
+    this.heroes = this.heroService.getHeroes();
+  }
+}
 ```
+
+{/* prettier-ignore */}
+<Tabs items={['heroes.component.ts', 'heroes.component.html', 'heroes.component.css']}>
+  <Tabs.Tab>
+    ```ts
+      // ✅ ХОРОШО
+
+      @Component({
+        standalone: true,
+        selector: 'toh-heroes',
+        templateUrl: './heroes.component.html',
+        styleUrls: ['./heroes.component.css'],
+        imports: [NgFor, NgIf, AsyncPipe, UpperCasePipe],
+      })
+
+      export class HeroesComponent {
+        heroes: Observable<Hero[]>;
+
+        selectedHero!: Hero;
+
+        constructor(private heroService: HeroService) {
+          this.heroes = this.heroService.getHeroes();
+        }
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```html
+      <!-- ✅ ХОРОШО -->
+
+      <div>
+      <h2>My Heroes</h2>
+      <ul class="heroes">
+        @for (hero of heroes | async; track hero) {
+          <li>
+            <button type="button" (click)="selectedHero=hero">
+              <span class="badge">{{ hero.id }}</span>
+              <span class="name">{{ hero.name }}</span>
+            </button>
+          </li>
+        }
+      </ul>
+      @if (selectedHero) {
+        <div>
+          <h2>{{ selectedHero.name | uppercase }} is my hero</h2>
+        </div>
+      }
+    </div>
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```css
+      .heroes {
+        margin: 0 0 2em 0;
+        list-style-type: none;
+        padding: 0;
+        width: 15em;
+      }
+
+      .heroes li {
+        display: flex;
+      }
+
+      .heroes button {
+        flex: 1;
+        cursor: pointer;
+        position: relative;
+        left: 0;
+        background-color: #EEE;
+        margin: .5em;
+        padding: 0;
+        border-radius: 4px;
+        display: flex;
+        align-items: stretch;
+        height: 1.8em;
+      }
+
+      .heroes button:hover {
+        color: #2c3a41;
+        background-color: #e6e6e6;
+        left: .1em;
+      }
+
+      .heroes button:active {
+        background-color: #525252;
+        color: #fafafa;
+      }
+
+      .heroes button.selected {
+        background-color: black;
+        color: white;
+      }
+
+      .heroes button.selected:hover {
+        background-color: #505050;
+        color: white;
+      }
+
+      .heroes button.selected:active {
+        background-color: black;
+        color: white;
+      }
+
+      .heroes .badge {
+        display: inline-block;
+        font-size: small;
+        color: white;
+        padding: 0.8em 0.7em 0 0.7em;
+        background-color: #405061;
+        line-height: 1em;
+        margin-right: .8em;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .heroes .name {
+        align-self: center;
+      }
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Декораторы свойств ввода и вывода
+
+#### Стиль 05-12
+
+Используйте декораторы классов `@Input()` и `@Output()` вместо свойств входных и выходных данных метаданных `@Directive` и `@Component`:
+
+Рассмотрите возможность размещения `@Input()` или `@Output()` в той же строке, что и свойство, которое они декорируют.
+
+<Callout type="info" emoji="ℹ️">
+Легче и читабельнее определить, какие свойства класса являются входными или выходными.
+
+Если вам когда-нибудь понадобится переименовать свойство или имя события, связанное с @Input() или @Output(), вы можете изменить его в одном месте.
+
+Объявление метаданных, прикрепленное к директиве, короче и, следовательно, более читабельно.
+
+Размещение декоратора в одной строке обычно сокращает код и при этом позволяет легко идентифицировать свойство как входное или выходное. Поместите его в строку выше, если это будет более читабельно.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts filename="hero-button.component.ts"
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-button',
+  template: `<button type="button"></button>`,
+  inputs: ['label'],
+  outputs: ['heroChange'],
+})
+export class HeroButtonComponent {
+  heroChange = new EventEmitter<any>();
+
+  label: string = '';
+}
+```
+
+{/* prettier-ignore */}
+```ts filename="hero-button.component.ts"
+  // ✅ ХОРОШО
+
+  @Component({
+    standalone: true,
+    selector: 'toh-hero-button',
+    template: `<button type="button">{{ label }}</button>`,
+  })
+
+  export class HeroButtonComponent {
+    @Output() heroChange = new EventEmitter<any>();
+    @Input() label = '';
+  }
+```
+
+### Избегайте псевдонимов входов и выходов
+
+#### Стиль 05-13
+
+Избегайте псевдонимов ввода и вывода, за исключением случаев, когда они служат важной цели.
+
+<Callout type="info" emoji="ℹ️">
+Два названия одной и той же собственности (частное и общественное) по своей сути сбивают с толку.
+
+Псевдоним следует использовать, если имя директивы также является входным свойством и имя директивы не описывает свойство.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts filename="hero-button.component.ts"
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-button',
+  template: `<button type="button">{{ label }}</button>`,
+})
+export class HeroButtonComponent {
+  // Pointless aliases
+  @Output('heroChangeEvent') heroChange = new EventEmitter<any>();
+  @Input('labelAttribute') label!: string;
+}
+```
+
+{/* prettier-ignore */}
+```html filename="app.component.html"
+// ❌ ПЛОХО
+
+<toh-hero-button
+  labelAttribute="OK"
+  (changeEvent)="doSomething()"
+>
+</toh-hero-button>
+```
+
+{/* prettier-ignore */}
+<Tabs items={['hero-button.component.ts', 'hero-highlight.directive.ts', 'app.component.html']}>
+  <Tabs.Tab>
+    ```ts 
+      // ✅ ХОРОШО
+
+      import {Component, EventEmitter, Input, Output} from '@angular/core';
+
+      @Component({
+        standalone: true,
+        selector: 'toh-hero-button',
+        template: `<button type="button" >{{label}}</button>`,
+      })
+
+      export class HeroButtonComponent {
+        // No aliases
+        @Output() heroChange = new EventEmitter<any>();
+        @Input() label = '';
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+      // ✅ ХОРОШО
+
+      import {Directive, ElementRef, Input, OnChanges} from '@angular/core';
+
+      @Directive({
+        standalone: true,
+        selector: '[heroHighlight]',
+      })
+
+      export class HeroHighlightDirective implements OnChanges {
+        // Aliased because `color` is a better property name than `heroHighlight`
+        @Input('heroHighlight') color = '';
+        constructor(private el: ElementRef) {}
+        ngOnChanges() {
+          this.el.nativeElement.style.backgroundColor = this.color || 'yellow';
+        }
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```css
+      // ✅ ХОРОШО
+
+      <toh-hero-button label="OK" (change)="doSomething()">
+      </toh-hero-button>
+
+      <!-- `heroHighlight` is both the directive name and the data-bound aliased property name -->
+      <h3 heroHighlight="skyblue">The Great Bombasto</h3>
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Делегируйте сложную логику компонентов сервисам
+
+#### Стиль 05-15
+
+Ограничьте логику в компоненте только тем, что необходимо для представления. Всю остальную логику следует делегировать службам.
+
+Перемещайте повторно используемую логику в сервисы и сохраняйте компоненты простыми и ориентированными на их прямое назначение.
+
+<Callout type="info" emoji="ℹ️">
+Логика может повторно использоваться несколькими компонентами, если она помещена в сервис и представлена как функция.
+
+Логику в сервисе легче изолировать с помощью модульного теста, а вызывающую логику в компоненте можно легко имитировать.
+
+Удаляет зависимости и скрывает детали реализации из компонента.
+
+Сохраняет компонент тонким, аккуратным и сфокусированным.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts filename="hero-list.component.ts"
+// ❌ ПЛОХО
+
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { Observable } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
+
+import { Hero } from '../shared/hero.model';
+
+const heroesUrl = 'http://angular.io';
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-list',
+  template: `...`,
+})
+export class HeroListComponent implements OnInit {
+  heroes: Hero[];
+
+  constructor(private http: HttpClient) {
+    this.heroes = [];
+  }
+
+  getHeroes() {
+    this.heroes = [];
+    this.http
+      .get(heroesUrl)
+      .pipe(
+        catchError(this.catchBadResponse),
+        finalize(() => this.hideSpinner()),
+      )
+      .subscribe((heroes: Hero[]) => (this.heroes = heroes));
+  }
+
+  ngOnInit() {
+    this.getHeroes();
+  }
+
+  private catchBadResponse(err: any, source: Observable<any>) {
+    // log and handle the exception
+    return new Observable();
+  }
+
+  private hideSpinner() {
+    // hide the spinner
+  }
+}
+```
+
+{/* prettier-ignore */}
+```ts filename="hero-list.component.ts"
+// ✅ ХОРОШО
+
+import { Component, OnInit } from '@angular/core';
+import { Hero, HeroService } from '../shared';
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-list',
+  template: `...`,
+})
+export class HeroListComponent implements OnInit {
+  heroes: Hero[] = [];
+
+  constructor(private heroService: HeroService) {}
+
+  getHeroes() {
+    this.heroes = [];
+    this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
+  }
+
+  ngOnInit() {
+    this.getHeroes();
+  }
+}
+```
+
+### Не добавляйте префикс к свойствам вывода
+
+#### Стиль 05-16
+
+Называйте события без префикса.
+
+Назовите методы обработчика событий с префиксом `on`, за которым следует имя события.
+
+<Callout type="info" emoji="ℹ️">
+Это согласуется со встроенными событиями, такими как нажатия кнопок.
+
+Angular допускает альтернативный синтаксис `on-`. Если бы само событие имело префикс on, это привело бы к выражению привязки `on-onEvent`.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts filename="hero.component.ts"
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero',
+  template: `...`,
+})
+export class HeroComponent {
+  @Output() onSavedTheDay = new EventEmitter<boolean>();
+}
+```
+
+```html filename="app.component.html"
+// ❌ ПЛОХО
+
+<toh-hero (onSavedTheDay)="onSavedTheDay($event)"></toh-hero>
+```
+
+{/* prettier-ignore */}
+<Tabs items={['TS', 'HTML']}>
+  <Tabs.Tab>
+    ```ts 
+      // ✅ ХОРОШО
+
+      export class HeroComponent {
+        @Output() savedTheDay = new EventEmitter<boolean>();
+      }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```html
+      <!-- ✅ ХОРОШО -->
+
+      <toh-hero (savedTheDay)="onSavedTheDay($event)"></toh-hero>
+    ```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Поместите логику представления в класс компонента
+
+#### Стиль 05-17
+
+Поместите логику представления в класс компонента, а не в шаблон.
+
+<Callout type="info" emoji="ℹ️">
+Логика будет храниться в одном месте (классе компонента), а не разбросана по двум местам.
+
+Сохранение логики представления компонента в классе, а не в шаблоне, улучшает тестируемость, удобство обслуживания и возможность повторного использования.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts filename="hero-list.component.ts"
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-list',
+  template: `
+    <section>
+      Our list of heroes: @for (hero of heroes; track hero) {
+      <toh-hero [hero]="hero"></toh-hero>
+      } Total powers: {{ totalPowers }}<br />
+      Average power: {{ totalPowers / heroes.length }}
+    </section>
+  `,
+  imports: [NgFor, HeroComponent],
+})
+export class HeroListComponent {
+  heroes: Hero[] = [];
+  totalPowers: number = 0;
+}
+```
+
+{/* prettier-ignore */}
+```ts filename="hero-list.component.ts"
+// ✅ ХОРОШО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-list',
+  template: `
+    <section>
+      Our list of heroes:
+      @for (hero of heroes; track hero) {
+        <toh-hero [hero]="hero"></toh-hero>
+      }
+      Total powers: {{totalPowers}}<br>
+      Average power: {{avgPower}}
+    </section>
+  `,
+  imports: [NgFor, HeroComponent],
+})
+
+export class HeroListComponent {
+  heroes: Hero[];
+  totalPowers = 0;
+
+...
+  get avgPower() {
+    return this.totalPowers / this.heroes.length;
+  }
+}
+```
+
+### Инициализировать входы
+
+#### Стиль 05-18
+
+Параметр компилятора TypeScript `--strictPropertyInitialization` гарантирует, что класс инициализирует свои свойства во время создания. Если этот параметр включен, компилятор TypeScript сообщает об ошибке, если класс не устанавливает значение ни для одного свойства, которое явно не помечено как необязательное.
+
+По своей конструкции Angular рассматривает все свойства `@Input` как необязательные. Если это возможно, вы должны удовлетворить `--strictPropertyInitialization`, указав значение по умолчанию.
+
+{/* prettier-ignore */}
+```ts filename="hero.component.ts"
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero',
+  template: `...`,
+})
+export class HeroComponent {
+  @Input() id = 'default_id';
+}
+```
+
+Если для свойства сложно создать значение по умолчанию, используйте `?` чтобы явно пометить свойство как необязательное.
+
+{/* prettier-ignore */}
+```ts filename="hero.component.ts"
+@Component({
+  standalone: true,
+  selector: 'toh-hero',
+  template: `...`,
+})
+export class HeroComponent {
+  @Input() id?: string;
+  process() {
+    if (this.id) {
+      // ...
+    }
+  }
+}
+```
+
+Возможно, вы захотите иметь обязательное поле `@Input`, что означает, что все пользователи вашего компонента должны передать этот атрибут. В таких случаях используйте значение по умолчанию. Просто подавить ошибку TypeScript с помощью `!` недостаточно, и его следует избегать, поскольку это не позволит средству проверки типов обеспечить предоставление входного значения.
+
+{/* prettier-ignore */}
+```ts filename="hero.component.ts"
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero',
+  template: `...`,
+})
+export class HeroComponent {
+  // Восклицательный знак подавляет ошибки о том, что свойство не инициализировано.
+  // Игнорирование этого требования может помешать проверке типов от обнаружения потенциальных проблем.
+  @Input() id!: string;
+}
+```
+
+## Директивы
+
+### Используйте директивы для улучшения элемента
+
+#### Стиль 06-01
+
+Используйте директивы атрибутов, если у вас есть логика представления без шаблона.
+
+<Callout type="info" emoji="ℹ️">
+Директивы атрибутов не имеют связанного шаблона.
+
+К элементу может быть применено более одной директивы атрибута.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts filename="highlight.component.ts"
+@Directive({
+  standalone: true,
+  selector: '[tohHighlight]',
+})
+export class HighlightDirective {
+  @HostListener('mouseover') onMouseEnter() {
+    // do highlight work
+  }
+}
+```
+
+```html filename="app.component.html"
+<div tohHighlight>Bombasta</div>
+```
+
+### Декораторы `HostListener`/`HostBinding` и метаданные хоста
+
+#### Стиль 06-03
+
+Рассмотрите возможность предпочтения `@HostListener` и `@HostBinding` свойству хоста декораторов `@Directive` и `@Component`.
+
+Будьте последовательны в своем выборе.
+
+<Callout type="info" emoji="ℹ️">
+Свойство, связанное с `@HostBinding`, или метод, связанный с `@HostListener`, можно изменить только в одном месте — в классе директивы. Если вы используете свойство метаданных хоста, вы должны изменить как объявление свойства/метода в классе директивы, так и метаданные в декораторе, связанном с директивой.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts
+// ✅ ХОРОШО
+
+import { Directive, HostBinding, HostListener } from '@angular/core';
+@Directive({
+  standalone: true,
+  selector: '[tohValidator]',
+})
+export class ValidatorDirective {
+  @HostBinding('attr.role') role = 'button';
+  @HostListener('mouseenter') onMouseEnter() {
+    // do work
+  }
+}
+```
+
+Сравните с менее предпочтительной альтернативой метаданных хоста.
+
+{/* prettier-ignore */}
+```ts
+// ❌ ПЛОХО
+
+import { Directive } from '@angular/core';
+@Directive({
+  standalone: true,
+  selector: '[tohValidator2]',
+  host: {
+    '[attr.role]': 'role',
+    '(mouseenter)': 'onMouseEnter()',
+  },
+})
+export class Validator2Directive {
+  role = 'button';
+  onMouseEnter() {
+    // do work
+  }
+}
+```
+
+## Cервисы
+
+### Сервисы являются синглтонами
+
+#### Стиль 07-01
+
+Используйте сервисы как синглтоны в одном инжекторе. Используйте их для обмена данными и функциями.
+
+<Callout type="info" emoji="ℹ️">
+Сервисы идеально подходят для обмена методами в рамках функциональной области или приложения.
+
+Сервисы идеально подходят для обмена данными с отслеживанием состояния в памяти.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts
+export class HeroService {
+  constructor(private http: HttpClient) {}
+  getHeroes() {
+    return this.http.get<Hero[]>('api/heroes');
+  }
+}
+```
+
+### Предоставление услуги
+
+#### Стиль 07-03
+
+Предоставляйте сервис с корневым инжектором приложения в декораторе `@Injectable` сервиса.
+
+<Callout type="info" emoji="ℹ️">
+Angular инжектор имеет иерархическую структуру.
+
+Когда вы предоставляете службу корневому инжектору, этот экземпляр службы является общим и доступен в каждом классе, которому нужна эта служба. Это идеально, когда служба совместно использует методы или состояние.
+
+Когда вы регистрируете службу в декораторе `@Injectable` службы, инструменты оптимизации, такие как те, которые используются в рабочих сборках Angular CLI, могут выполнять встряхивание дерева и удалять службы, которые не используются вашим приложением.
+
+Это не идеальный вариант, когда двум разным компонентам требуются разные экземпляры службы. В этом сценарии было бы лучше предоставить услугу на уровне компонента, которому нужен новый отдельный экземпляр.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts
+import { Injectable } from '@angular/core';
+@Injectable({
+  providedIn: 'root',
+})
+export class Service {}
+```
+
+### Используйте декоратор класса `@Injectable()`
+
+#### Стиль 07-04
+
+Используйте декоратор класса `@Injectable()` вместо декоратора параметров `@Inject` при использовании типов в качестве токенов для зависимостей службы.
+
+<Callout type="info" emoji="ℹ️">
+Механизм Angular Dependency Injection (DI) разрешает собственные зависимости службы на основе объявленных типов параметров конструктора этой службы.
+
+Когда служба принимает только зависимости, связанные с токенами типа, синтаксис `@Injectable()` гораздо менее подробный по сравнению с использованием `@Inject()` для каждого отдельного параметра конструктора.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts
+// ❌ ПЛОХО
+
+export class HeroArena {
+  constructor(
+    @Inject(HeroService) private heroService: HeroService,
+    @Inject(HttpClient) private http: HttpClient,
+  ) {}
+}
+```
+
+{/* prettier-ignore */}
+```ts
+// ✅ ХОРОШО
+
+@Injectable()
+export class HeroArena {
+  constructor(
+    private heroService: HeroService,
+    private http: HttpClient,
+  ) {}
+...
+}
+```
+
+## Службы передачи данных
+
+### Сообщение с сервером через сервис
+
+#### Стиль 08-01
+
+Выполните рефакторинг логики для выполнения операций с данными и взаимодействия с данными в сервисе.
+
+Сделайте службы данных ответственными за вызовы XHR, локальное хранилище, хранение в памяти или любые другие операции с данными.
+
+<Callout type="info" emoji="ℹ️">
+Ответственность компонента заключается в представлении и сборе информации для представления. Его не должно волновать, как он получает данные, главное, чтобы он знал, у кого их запросить. Разделение служб данных перемещает логику того, как передать их в службу данных, и позволяет компоненту быть проще и более ориентированным на представление.
+
+Это упрощает тестирование (ложное или реальное) вызовов данных при тестировании компонента, использующего службу данных.
+
+Детали управления данными, такие как заголовки, методы HTTP, кэширование, обработка ошибок и логика повторов, не имеют значения для компонентов и других потребителей данных.
+
+</Callout>
+
+Служба данных инкапсулирует эти детали. Эти детали легче развивать внутри службы, не затрагивая ее потребителей. И проще тестировать потребителей с помощью макетных реализаций сервисов.
+
+## Перехватчики жизненного цикла
+
+Используйте перехватчики жизненного цикла, чтобы отслеживать важные события, предоставляемые Angular.
+
+### Реализация интерфейсов перехватчиков жизненного цикла
+
+#### Стиль 09-01
+
+Обязательно реализуйте интерфейсы перехватчиков жизненного цикла.
+
+<Callout type="info" emoji="ℹ️">
+Интерфейсы жизненного цикла предписывают типизированные сигнатуры методов. Используйте эти подписи, чтобы отмечать орфографические и синтаксические ошибки.
+
+</Callout>
+
+{/* prettier-ignore */}
+```ts
+// ❌ ПЛОХО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-button',
+  template: `<button type="button">OK</button>`,
+})
+export class HeroButtonComponent {
+  onInit() {
+    // misspelled
+    console.log('The component is initialized');
+  }
+}
+```
+
+{/* prettier-ignore */}
+```ts
+// ✅ ХОРОШО
+
+@Component({
+  standalone: true,
+  selector: 'toh-hero-button',
+  template: `<button type="button">OK</button>`,
+})
+export class HeroButtonComponent implements OnInit {
+  ngOnInit() {
+    console.log('The component is initialized');
+  }
+}
+```
+
+## Приложение
+
+Полезные инструменты и советы по Angular.
+
+### Шаблоны файлов и фрагменты
+
+#### Стиль А-02
+
+Используйте шаблоны файлов или фрагменты, чтобы следовать единообразным стилям и шаблонам. Вот шаблоны и/или фрагменты для некоторых редакторов и IDE для веб-разработки.
+
+Рассмотрите возможность использования [сниппетов](https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2) кода [Visual Studio](https://code.visualstudio.com/), соответствующих этим стилям и рекомендациям.
+
+Рассмотрите возможность использования [сниппетов](https://github.com/orizens/sublime-angular2-snippets) для [Sublime Text](https://www.sublimetext.com/), соответствующих этим стилям и рекомендациям.
+
+Рассмотрите возможность использования [сниппетов](https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2) кода для Vim, соответствующих этим стилям и рекомендациям.
