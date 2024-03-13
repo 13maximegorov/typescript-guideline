@@ -19,15 +19,15 @@
 Всегда используйте HTTPS (`https:`) для изображений и других медиафайлов, таблиц стилей и скриптов, если только соответствующие файлы не доступны по HTTPS.
 
 ```html
-❌ Не рекомендуется: отсутсвует протокол
+<!-- ❌ Не рекомендуется: отсутсвует протокол -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
-❌ Не рекомендуется: используется HTTP
+<!-- ❌ Не рекомендуется: используется HTTP -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 ```
 
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 ```
 
@@ -53,7 +53,7 @@
 Не используйте табуляцию и не смешивайте табуляцию с пробелами.
 
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <ul>
   <li>Пять</li>
   <li>Погулять</li>
@@ -75,12 +75,12 @@
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <a href="/">Home</a>
 ```
 
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <img
   src="google.png"
   alt="Google"
@@ -110,13 +110,13 @@
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <p>Что?_
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <p>Вот так.
 ```
 
@@ -189,14 +189,14 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <title>Проверка</title>
 <article>Просто проверка
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <!DOCTYPE html>
   <meta charset="utf-8">
   <title>Проверка</title>
@@ -213,13 +213,13 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <div onclick="goToRecommendations();">All recommendations</div>
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <a href="recommendations/">All recommendations</a>
 ```
 
@@ -235,13 +235,13 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <img src="spreadsheet.png">
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <img src="spreadsheet.png" alt="Spreadsheet screenshot.">
 ```
 
@@ -259,7 +259,7 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <!DOCTYPE html>
   <title>HTML sucks</title>
   <link rel="stylesheet" href="base.css" media="screen">
@@ -274,7 +274,7 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <!DOCTYPE html>
   <title>My first CSS-only redesign</title>
   <link rel="stylesheet" href="default.css">
@@ -294,13 +294,13 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 Валютный знак евро: &ldquo;&eur;&rdquo;.
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 Валютный знак евро: “€”.
 ```
 
@@ -314,7 +314,7 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <!DOCTYPE html>
   <html>
     <head>
@@ -328,7 +328,7 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <!DOCTYPE html>
   <title>Байты-деньги!</title>
   <p>Так-то
@@ -344,27 +344,27 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <link rel="stylesheet" href="//www.google.com/css/maia.css"
   type="text/css">
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <link rel="stylesheet" href="//www.google.com/css/maia.css">
 ```
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется 
+<!-- ❌ Не рекомендуется -->
 <script src="//www.google.com/js/gweb/analytics/autotrack.js"
   type="text/javascript"></script>
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <script src="//www.google.com/js/gweb/analytics/autotrack.js"></script>
 ```
 
@@ -380,13 +380,13 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется: `window.userProfile` будет ссылаться на <div> элемент
+<!-- ❌ Не рекомендуется: `window.userProfile` будет ссылаться на <div> элемент -->
 <div id="userProfile"></div>
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется: `id` атрибут обязателен, и его значение включает дефис
+<!-- ✅ Рекомендуется: `id` атрибут обязателен, и его значение включает дефис -->
 <div aria-describedby="user-profile">
   …
   <div id="user-profile"></div>
@@ -408,14 +408,14 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <blockquote>
   <p><em>Space</em>, the final frontier.</p>
 </blockquote>
 ```
 
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <ul>
   <li>Маша</li>
   <li>Глаша</li>
@@ -425,7 +425,7 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <table>
   <thead>
     <tr>
@@ -495,13 +495,13 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 
 {/* prettier-ignore */}
 ```html
-❌ Не рекомендуется
+<!-- ❌ Не рекомендуется -->
 <a class='maia-button maia-button-secondary'>Sign in</a>
 ```
 
 {/* prettier-ignore */}
 ```html
-✅ Рекомендуется
+<!-- ✅ Рекомендуется -->
 <a class="maia-button maia-button-secondary">Sign in</a>
 ```
 
