@@ -18,6 +18,7 @@
 
 Всегда используйте HTTPS (`https:`) для изображений и других медиафайлов, таблиц стилей и скриптов, если только соответствующие файлы не доступны по HTTPS.
 
+{/* prettier-ignore */}
 ```html
 <!-- ❌ Не рекомендуется: отсутсвует протокол -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -26,11 +27,13 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 ```
 
+{/* prettier-ignore */}
 ```html
 <!-- ✅ Рекомендуется -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 ```
 
+{/* prettier-ignore */}
 ```css
 /* ❌ Не рекомендуется: отсутсвует протокол */
 @import '//fonts.googleapis.com/css?family=Open+Sans';
@@ -39,6 +42,7 @@
 @import 'http://fonts.googleapis.com/css?family=Open+Sans';
 ```
 
+{/* prettier-ignore */}
 ```css
 /* ✅ Рекомендуется */
 @import 'https://fonts.googleapis.com/css?family=Open+Sans';
@@ -52,6 +56,7 @@
 
 Не используйте табуляцию и не смешивайте табуляцию с пробелами.
 
+{/* prettier-ignore */}
 ```html
 <!-- ✅ Рекомендуется -->
 <ul>
@@ -60,6 +65,7 @@
 </ul>
 ```
 
+{/* prettier-ignore */}
 ```css
 /* ✅ Рекомендуется */
 .example {
@@ -79,6 +85,7 @@
 <a href="/">Home</a>
 ```
 
+{/* prettier-ignore */}
 ```html
 <!-- ✅ Рекомендуется -->
 <img
@@ -95,6 +102,7 @@
 }
 ```
 
+{/* prettier-ignore */}
 ```css
 /* ✅ Рекомендуется */
 .test {
@@ -414,6 +422,7 @@ HTML5 (HTML синтаксис) рекомендуется для всех HTML-
 </blockquote>
 ```
 
+{/* prettier-ignore */}
 ```html
 <!-- ✅ Рекомендуется -->
 <ul>
@@ -660,6 +669,7 @@ CSS предлагает множество различных [сокращен
 
 Использование сокращенной записи свойств полезно для большей эффективности и лучшего понимания кода.
 
+{/* prettier-ignore */}
 ```css
 /* ❌ Не рекомендуется */
 .test {
@@ -674,6 +684,7 @@ CSS предлагает множество различных [сокращен
 }
 ```
 
+{/* prettier-ignore */}
 ```css
 /* ✅ Рекомендуется */
 .test {
